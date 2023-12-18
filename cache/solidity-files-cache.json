@@ -1,44 +1,6 @@
 {
   "_format": "hh-sol-cache-2",
   "files": {
-    "C:\\Users\\karth\\OneDrive\\Documents\\GitHub\\digi-art\\contracts\\Marketspace.sol": {
-      "lastModificationDate": 1702496644746,
-      "contentHash": "a8f0478a18abed08da49734089472b6f",
-      "sourceName": "contracts/Marketspace.sol",
-      "solcConfig": {
-        "version": "0.8.19",
-        "settings": {
-          "optimizer": {
-            "enabled": false,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [
-        "@openzeppelin/contracts/token/ERC721/ERC721.sol",
-        "@openzeppelin/contracts/security/ReentrancyGuard.sol"
-      ],
-      "versionPragmas": [
-        "^0.8.4"
-      ],
-      "artifacts": [
-        "MarketPlace"
-      ]
-    },
     "C:\\Users\\karth\\OneDrive\\Documents\\GitHub\\digi-art\\node_modules\\@openzeppelin\\contracts\\token\\ERC721\\ERC721.sol": {
       "lastModificationDate": 1702496355939,
       "contentHash": "49295810dc45f300e5f84b4b50d88a59",
@@ -440,10 +402,48 @@
         "ERC721URIStorage"
       ]
     },
-    "C:\\Users\\karth\\OneDrive\\Documents\\GitHub\\digi-art\\contracts\\NFT.sol": {
-      "lastModificationDate": 1702576589841,
+    "C:\\Users\\karth\\OneDrive\\Documents\\GitHub\\digi-art\\src\\SmartContracts\\contracts\\Marketspace.sol": {
+      "lastModificationDate": 1702913432563,
+      "contentHash": "a8f0478a18abed08da49734089472b6f",
+      "sourceName": "src/SmartContracts/contracts/Marketspace.sol",
+      "solcConfig": {
+        "version": "0.8.19",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "@openzeppelin/contracts/token/ERC721/ERC721.sol",
+        "@openzeppelin/contracts/security/ReentrancyGuard.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.4"
+      ],
+      "artifacts": [
+        "MarketPlace"
+      ]
+    },
+    "C:\\Users\\karth\\OneDrive\\Documents\\GitHub\\digi-art\\src\\SmartContracts\\contracts\\NFT.sol": {
+      "lastModificationDate": 1702913328680,
       "contentHash": "539114b1982b4b8c30ca3720e2230c7d",
-      "sourceName": "contracts/NFT.sol",
+      "sourceName": "src/SmartContracts/contracts/NFT.sol",
       "solcConfig": {
         "version": "0.8.19",
         "settings": {
