@@ -1,14 +1,15 @@
 import { useState } from "react"
 import { create as ipfsHttpClient } from 'ipfs-http-client'
+import {Row,Form,Button} from "react-bootstrap"
 const client = ipfsHttpClient('https://ipfs.infura.io:5001/api/v0')
-export  function Create ({marketplace,nft}){
+export default function Create ({marketplace,nft}){
     const[nftname,SetNftname] =  useState('')
     const[description,SetDescription] = useState('')
     const[price,SetPrice]=useState(null)
     const[image,SetIMage]=useState(``)
     const[pass,SetPass]=useState(true)
    async function ipfsfunction(event){
-      file = event.target.files[0]
+      let file = event.target.files[0]
       if (file !== undefined){
       result= await client.add(file)
       try {
@@ -40,13 +41,29 @@ else{SetPass(false)}
    await(await marketplace.ListItem(price,nft,id))  //Arguments passed according Marketplace.sol 
    }
     return(
-        <>
-        <input onChange={ipfsfunction} />
-        <input onChange={(e)=>{SetNftname(e.target.value)}} />//Enter the NFT Nftname
-        <input onChange={(e)=>{SetDescription(e.target.value)}}/>//Enter the description
-        <input onChange={(e)=>{SetPrice(e.target.value)}}/>//Enter the Price
-        <button onClick={ListNFT}>Create and List NFT</button>
-        {!pass && <> Complete All the section first </>}
-        </>
-    )
-}
+        <div className="container-fluid mt-5">
+        <div className="row">
+          <main role="main" className="col-lg-12 mx-auto" style={{ maxWidth: '1000px' }}>
+            <div className="content mx-auto">
+              <Row className="g-4">
+                <Form.Control
+                  type="file"
+                  required
+                  name="file"
+                  onChange={ipfsfunction}
+                />
+                <Form.Control onChange={(e) => SetNftname(e.target.value)} size="lg" required type="text" placeholder="Name" />
+                <Form.Control onChange={(e) => SetDescription(e.target.value)} size="lg" required as="textarea" placeholder="Description" />
+                <Form.Control onChange={(e) => SetPrice(e.target.value)} size="lg" required type="number" placeholder="Price in ETH" />
+                <div className="d-grid px-0">
+                  <Button onClick={ListNFT} variant="primary" size="lg">
+                    Create & List NFT!
+                  </Button>
+                </div>
+              </Row>
+            </div>
+          </main>
+        </div>
+      </div>
+    );
+  }

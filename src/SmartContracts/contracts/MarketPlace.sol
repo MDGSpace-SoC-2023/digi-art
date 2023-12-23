@@ -5,7 +5,7 @@ import  "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 contract MarketPlace is ReentrancyGuard {
     uint feepercent;
     address payable feeaddress;
-    uint    token_Listed_count;
+    uint  public  token_Listed_count;
     constructor(uint _feePercent){
         feepercent = _feePercent;
         feeaddress = payable (msg.sender);
@@ -55,12 +55,13 @@ function ListItem(uint _price,ERC721 _NFT, uint _tokenID) external nonReentrant{
     ); }
 function BuyItem( uint _ItemID) external payable {
    Item storage item = Items[_ItemID];
-   uint Total_price = ((item.price)*(100+feepercent))/100;
-   require(msg.value>Total_price,"Value is less then the listed price, try again") ;
+//    uint Total_price = getTotalPrice(_ItemID);
+//    require(msg.value>Total_price,"Value is less then the listed price, try again") ;
    require(_ItemID>0 && _ItemID<=token_Listed_count,"Enter valid itemID");
    require(!item.sold,"Item already sold");
+
    item.seller.transfer(item.price);
-   feeaddress.transfer(Total_price-item.price);
+//    feeaddress.transfer(Total_price-item.price);
    
 ERC721 nft = Items[_ItemID].NFT;
 nft.transferFrom(address(this),msg.sender,Items[_ItemID].tokenID);
@@ -74,4 +75,7 @@ emit token_sold (
     msg.sender
 );  
 }
+// function getTotalPrice(uint _ItemID)public view returns(uint){
+// Item storage  item = Items[_ItemID];
+// return()}
 }

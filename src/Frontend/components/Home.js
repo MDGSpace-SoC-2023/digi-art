@@ -4,18 +4,19 @@ export default function Home ({marketplace,nft}){
     const[items,setItems]= useState([])
  async function LoadListedNfts_in_Marketplace(){
     const items = []
-     const tokenCount = marketplace.token_Listed_count();
+     const tokenCount =await marketplace.token_Listed_count();
      for (let i = 0;i<=tokenCount;i++){
-        let item = marketplace.items(i)
+        let item =await marketplace.Items(i)
         if (!item.sold){
-       const totalPrice =await  item.totalPrice
+      //  let totalPrice 
         const uri =  await nft.tokenURI(item.tokenID)
         const response =  await fetch(uri)
         const metadata = await response.json()
      items.push({
-        TotalPrice:totalPrice,
+        // TotalPrice:totalPrice,
+        price:item.price,
         description:metadata.description,
-        owner:item.owner,
+        seller:item.seller,
         image:metadata.image,
         name:metadata.name
      })}}
@@ -24,7 +25,7 @@ export default function Home ({marketplace,nft}){
      }
 
   async function handlePurchase(item){
-    await (await marketplace.purchaseItem(item.itemId, { value: item.totalPrice })).wait()
+    await (await marketplace.purchaseItem(item.itemId, { value: item.totalPrice })).wait()//Reason for extra bracket to be established
     LoadListedNfts_in_Marketplace()
   }
   useEffect(()=>{
@@ -36,14 +37,14 @@ export default function Home ({marketplace,nft}){
   }
   return (
     <>{items.length>0 ?
-          <div > {...items.map((item,id)=>{<>
+          <div > {items.map((item,id)=>{<>
       
                <p key={id}>{item.image} </p>
                <p onClick={()=>{handlePurchase(item)}}>Buy this NFT</p>
-               <p>Price:{item.Price}</p>
+               <p>Price:{item.price}</p>
  </>})}
           </div>
-        :<div>Not listed</div>
+        :<div>No NFT is listed in this marketPlace. Go to "Create" section </div>
   }</>
 
  )
