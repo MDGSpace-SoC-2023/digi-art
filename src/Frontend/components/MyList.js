@@ -5,7 +5,9 @@ export default function MyList({marketplace,nft,account}){
     const[loading,SetLoading]=useState(true)
  async   function handleItemsUpdate(){
         let items = []
+        console.log("Mylist's item array is initialised")
         const token_listed_count =await marketplace.token_Listed_count()
+        console.log("tokencount = ",token_listed_count)
         for (let i = 1; i <=token_listed_count; i++) {
             const item = await marketplace.items(i);
              if( item.seller === account){

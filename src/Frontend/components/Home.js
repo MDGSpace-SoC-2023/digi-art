@@ -25,7 +25,9 @@ export default function Home ({marketplace,nft}){
     //  }
     try {
       const items = [];
+      console.log("created items arrray")
       const tokenCount = await marketplace.token_Listed_count();
+      console.log("tokencount(Home) : " ,tokenCount )
       for (let i = 0; i <= tokenCount; i++) {
           let item = await marketplace.Items(i);
           if (!item.sold) {
