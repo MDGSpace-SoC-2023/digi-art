@@ -1,32 +1,33 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
-import {ERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import  "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+// Author: Karthik Sathish
 contract MarketPlace is ReentrancyGuard {
     uint feepercent;
     address payable feeaddress;
-    uint  public  token_Listed_count;
+    uint256  public  token_Listed_count ;
     constructor(uint _feePercent){
         feepercent = _feePercent;
         feeaddress = payable (msg.sender);
     }
     struct Item {
-        uint itemID;
-        ERC721 NFT;
+        uint256 itemID;
+        IERC721 NFT;
         uint tokenID;
         uint price;
         bool sold;
         address payable seller;
          }
     event token_is_Listed(
-        uint itemID,
+        uint256 itemID,
         uint tokenID,
         uint price,
         address indexed NFT,
         address indexed seller
     );
     event token_sold(
-        uint itemID,
+        uint256 itemID,
         uint tokenID,
         uint price,
         address indexed NFT,
@@ -34,7 +35,7 @@ contract MarketPlace is ReentrancyGuard {
         address indexed buyer
     );
     mapping(uint => Item) public Items;
-function ListItem(uint _price,ERC721 _NFT, uint _tokenID) external nonReentrant{
+function ListItem(uint _price,IERC721 _NFT, uint _tokenID) external nonReentrant{
     require(_price>0,"price should be greater than zero");
     token_Listed_count++;
     _NFT.transferFrom(msg.sender,address(this), _tokenID);
@@ -63,7 +64,7 @@ function BuyItem( uint _ItemID) external payable {
    item.seller.transfer(item.price);
 //    feeaddress.transfer(Total_price-item.price);
    
-ERC721 nft = Items[_ItemID].NFT;
+IERC721 nft = Items[_ItemID].NFT;
 nft.transferFrom(address(this),msg.sender,Items[_ItemID].tokenID);
 item.sold = true;
 emit token_sold (

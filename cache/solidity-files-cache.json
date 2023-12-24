@@ -440,8 +440,8 @@
       ]
     },
     "C:\\Users\\karth\\OneDrive\\Documents\\GitHub\\digi-art\\src\\SmartContracts\\contracts\\MarketPlace.sol": {
-      "lastModificationDate": 1703368894975,
-      "contentHash": "b8a7f0ebace38a35f0ae268fa56d5f30",
+      "lastModificationDate": 1703413696403,
+      "contentHash": "06c292cb8fca27e1fe971adc064da06e",
       "sourceName": "src/SmartContracts/contracts/MarketPlace.sol",
       "solcConfig": {
         "version": "0.8.4",
@@ -467,7 +467,7 @@
         }
       },
       "imports": [
-        "@openzeppelin/contracts/token/ERC721/ERC721.sol",
+        "@openzeppelin/contracts/token/ERC721/IERC721.sol",
         "@openzeppelin/contracts/security/ReentrancyGuard.sol"
       ],
       "versionPragmas": [
