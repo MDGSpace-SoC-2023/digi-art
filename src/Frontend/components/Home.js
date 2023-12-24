@@ -30,8 +30,11 @@ export default function Home ({marketplace,nft}){
           let item = await marketplace.Items(i);
           if (!item.sold) {
               const uri = await nft.tokenURI(item.tokenID);
+              console.log("URI is : ",uri)
               const response = await fetch(uri);
+              console.log("response is :",response)
               const metadata = await response.json();
+              console.log("metadata is : ",metadata)
               items.push({
                   price: item.price,
                   description: metadata.description,
