@@ -100,7 +100,7 @@ const Create = ({ marketplace, nft }) => {
     console.log("token is given approval")
     // add nft to marketplace
     const listingPrice = ethers.utils.parseEther(price.toString())
-    await (await marketplace.makeItem(nft.address, id, listingPrice)).wait()
+    await (await marketplace.ListItem(listingPrice,nft.address, id )).wait()
     console.log("Item listed in Marketspace")}
     catch(error){console.log("Error in minting NFT",error)}
   }

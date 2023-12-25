@@ -6,13 +6,13 @@ import  "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 contract MarketPlace is ReentrancyGuard {
     uint feepercent;
     address payable feeaddress;
-    uint256  public  token_Listed_count ;
+    uint public  token_Listed_count ;
     constructor(uint _feePercent){
         feepercent = _feePercent;
         feeaddress = payable (msg.sender);
     }
     struct Item {
-        uint256 itemID;
+        uint itemID;
         IERC721 NFT;
         uint tokenID;
         uint price;
@@ -20,14 +20,14 @@ contract MarketPlace is ReentrancyGuard {
         address payable seller;
          }
     event token_is_Listed(
-        uint256 itemID,
+        uint itemID,
         uint tokenID,
         uint price,
         address indexed NFT,
         address indexed seller
     );
     event token_sold(
-        uint256 itemID,
+        uint itemID,
         uint tokenID,
         uint price,
         address indexed NFT,

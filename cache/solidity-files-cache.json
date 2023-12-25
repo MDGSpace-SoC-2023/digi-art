@@ -440,8 +440,8 @@
       ]
     },
     "C:\\Users\\karth\\OneDrive\\Documents\\GitHub\\digi-art\\src\\SmartContracts\\contracts\\MarketPlace.sol": {
-      "lastModificationDate": 1703413696403,
-      "contentHash": "06c292cb8fca27e1fe971adc064da06e",
+      "lastModificationDate": 1703459014517,
+      "contentHash": "338d68181d5edf355ec32ea0c2dd0c20",
       "sourceName": "src/SmartContracts/contracts/MarketPlace.sol",
       "solcConfig": {
         "version": "0.8.4",

@@ -25,12 +25,14 @@ function App() {
   const [marketplace, setMarketplace] = useState({})
   // MetaMask Login/Connect
   const web3Handler = async () => {
-    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-    setAccount(accounts[0])
+    // const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
     // Get provider from Metamask
     const provider = new ethers.providers.Web3Provider(window.ethereum)
+    const accounts = await provider.send("eth_requestAccounts", []);
+    setAccount(accounts[0])
+
     // Set signer
-    const signer = provider.getSigner()
+    const signer = provider.getSigner(account)
     // console.log(provider.getCode(address))
     window.ethereum.on('chainChanged', (chainId) => {
       window.location.reload();

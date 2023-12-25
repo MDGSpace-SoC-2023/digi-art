@@ -1,4 +1,6 @@
 import { useState,useEffect } from "react";
+import { ethers } from "ethers"
+import { Row, Col, Card, Button } from 'react-bootstrap'
 export default function Home ({marketplace,nft}){
     const[loading,setLoading] = useState(true)
     const[items,setItems]= useState([])
@@ -28,10 +30,14 @@ export default function Home ({marketplace,nft}){
       console.log("created items arrray")
       const tokenCount = await marketplace.token_Listed_count();
       console.log("tokencount(Home) : " ,tokenCount )
-      for (let i = 0; i <= tokenCount; i++) {
+      for (let i = 1; i <= tokenCount; i++) {
+        console.log("offff")
           let item = await marketplace.Items(i);
+          console.log("offf2",item)
           if (!item.sold) {
-              const uri = await nft.tokenURI(item.tokenID);
+              const uri = await nft.tokenURI(item.tokenID,{
+                gasLimit: 1000000,
+              });
               console.log("URI is : ",uri)
               const response = await fetch(uri);
               console.log("response is :",response)
@@ -39,6 +45,7 @@ export default function Home ({marketplace,nft}){
               console.log("metadata is : ",metadata)
               items.push({
                   price: item.price,
+                  itemId: item.itemID,
                   description: metadata.description,
                   seller: item.seller,
                   image: metadata.image,
@@ -54,8 +61,15 @@ export default function Home ({marketplace,nft}){
   }}
 
   async function handlePurchase(item){
-    await (await marketplace.purchaseItem(item.itemId, { value: item.totalPrice })).wait()//Reason for extra bracket to be established
-    LoadListedNfts_in_Marketplace()
+    try {
+      
+   
+    await (await marketplace.BuyItem(item.itemId, { value: item.price })).wait()//Reason for extra bracket to be established
+    console.log("bought the item")
+    LoadListedNfts_in_Marketplace() } 
+    catch (error) {
+      console.log("error in handlePurchase : ",error)
+    }
   }
   useEffect(()=>{
     
@@ -67,16 +81,57 @@ export default function Home ({marketplace,nft}){
     <>Loading.....</>)
   }
   return (
-    <>{items.length>0 ?
-          <div > {items.map((item,id)=>{<>
-      
-               <p key={id}>{item.image} </p>
-               <p onClick={()=>{handlePurchase(item)}}>Buy this NFT</p>
-               <p>Price:{item.price}</p>
- </>})}
-          </div>
-        :<div>No NFT is listed in this marketPlace. Go to "Create" section </div>
-  }</>
-
- )
+  <div className="flex justify-center">
+  {items.length > 0 ?
+    <div className="px-5 container">
+      <Row xs={1} md={2} lg={4} className="g-4 py-5">
+        {items.map((item, idx) => (
+          <Col key={idx} className="overflow-hidden">
+            <Card>
+              <Card.Img variant="top" src={item.image} />
+              <Card.Body color="secondary">
+                <Card.Title>{item.name}</Card.Title>
+                <Card.Text>
+                  {item.description}
+                </Card.Text>
+              </Card.Body>
+              <Card.Footer>
+                <div className='d-grid'>
+                  {/* {()=>{ try { */}
+                  
+                
+                  <Button onClick={() => handlePurchase(item)} variant="primary" size="lg">
+                    Buy for {ethers.utils.formatEther(item.price)} ETH
+                  </Button>
+                
+                {/* //   console.error("error is in return:",error)
+                //   }
+                // }} */}
+                </div>
+              </Card.Footer>
+            </Card>
+          </Col>
+        ))}
+      </Row>
+    </div>
+    : (
+      <main style={{ padding: "1rem 0" }}>
+        <h2>No listed assets</h2>
+      </main>
+    )}
+</div>
+);
 }
+//     <>{items.length>0 ?
+//           <div > {items.map((item,id)=>{<>
+      
+//                <p key={id}>{item.image} </p>
+//                <p onClick={()=>{handlePurchase(item)}}>Buy this NFT</p>
+//                <p>Price:{item.price}</p>
+//  </>})}
+//           </div>
+//         :<div>No NFT is listed in this marketPlace. Go to "Create" section </div>
+//   }</>
+
+//  )
+// }
