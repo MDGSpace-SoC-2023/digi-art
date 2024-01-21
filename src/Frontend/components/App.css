@@ -27,6 +27,10 @@
   .App-link {
     color: #61dafb;
   }
+  .custom-img {
+    height: 100px; 
+    object-fit: cover; 
+  }
   
   @keyframes App-logo-spin {
     from {

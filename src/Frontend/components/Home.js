@@ -1,6 +1,7 @@
 import { useState,useEffect } from "react";
 import { ethers } from "ethers"
 import { Row, Col, Card, Button } from 'react-bootstrap'
+
 export default function Home ({marketplace,nft}){
     const[loading,setLoading] = useState(true)
     const[items,setItems]= useState([])
@@ -31,9 +32,9 @@ export default function Home ({marketplace,nft}){
       const tokenCount = await marketplace.token_Listed_count();
       console.log("tokencount(Home) : " ,tokenCount )
       for (let i = 1; i <= tokenCount; i++) {
-        console.log("offff")
+        console.log("i :", i)
           let item = await marketplace.Items(i);
-          console.log("offf2",item)
+          console.log("item : ",item)
           if (!item.sold) {
               const uri = await nft.tokenURI(item.tokenID,{
                 gasLimit: 1000000,
@@ -87,8 +88,8 @@ export default function Home ({marketplace,nft}){
       <Row xs={1} md={2} lg={4} className="g-4 py-5">
         {items.map((item, idx) => (
           <Col key={idx} className="overflow-hidden">
-            <Card>
-              <Card.Img variant="top" src={item.image} />
+          <Card className="h-80 d-flex flex-column">
+          <Card.Img variant="top" src={item.image} className="custom-img" />
               <Card.Body color="secondary">
                 <Card.Title>{item.name}</Card.Title>
                 <Card.Text>

@@ -6,7 +6,7 @@ import { Navbar, Nav, Button, Container } from 'react-bootstrap'
 
 const Navigation = ({ web3Handler, account }) => {
     return (
-        <Navbar expand="lg" bg="secondary" variant="dark">
+        <Navbar expand="lg"  style={{ backgroundColor: 'black' }} variant="dark">
             <Container>
                
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />

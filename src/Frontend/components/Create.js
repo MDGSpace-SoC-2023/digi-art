@@ -51,14 +51,11 @@ const Create = ({ marketplace, nft }) => {
   const sendFileToIPFS = async (e) => {
 
     e.preventDefault();
-    console.log("123");
-    console.log(e);
-
+    
 
     if (fileImg) {
       try {
 
-        console.log("1234");
         const formData = new FormData();
         formData.append("file", fileImg);
         console.log(formData)
@@ -74,7 +71,7 @@ const Create = ({ marketplace, nft }) => {
         });
 
         const ImgHash = `https://gateway.pinata.cloud/ipfs/${resFile.data.IpfsHash}`;
-        console.log(ImgHash);
+        
         sendJSONtoIPFS(ImgHash)
 
 
@@ -97,7 +94,7 @@ const Create = ({ marketplace, nft }) => {
     console.log("token ID : ",id)
     // approve marketplace to spend nft
     await (await nft.setApprovalForAll(marketplace.address, true)).wait()
-    console.log("token is given approval")
+    console.log("token is given approval") 
     // add nft to marketplace
     const listingPrice = ethers.utils.parseEther(price.toString())
     await (await marketplace.ListItem(listingPrice,nft.address, id )).wait()

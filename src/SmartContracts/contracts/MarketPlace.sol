@@ -6,7 +6,7 @@ import  "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 contract MarketPlace is ReentrancyGuard {
     uint feepercent;
     address payable feeaddress;
-    uint public  token_Listed_count ;
+    uint public  token_Listed_count =0;
     constructor(uint _feePercent){
         feepercent = _feePercent;
         feeaddress = payable (msg.sender);
