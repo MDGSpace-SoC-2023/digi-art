@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
-import { ethers } from "ethers"
+// import { ethers } from "ethers"
+const ethers = require("ethers")
 // import {Row,Col,Card} from "react-bootstrap"
 import { Row, Col, Card } from 'react-bootstrap'
 
@@ -63,7 +64,7 @@ export default function MyPurchase({marketplace,nft,account}){
         </div>
         : (
           <main style={{ padding: "1rem 0" }}>
-            <h2>No purchases</h2>
+            <h2>No purchases...!. Go and Purchase some in the Home Page.</h2>
           </main>
         )}
     </div>

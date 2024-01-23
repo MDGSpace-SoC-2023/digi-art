@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 // import { ethers } from "hardhat";
-import { ethers } from "ethers"
+// import { ethers } from "ethers"
+const ethers = require("ethers")
 import { Row, Col, Card } from 'react-bootstrap'
 
 export default function MyList({marketplace,nft,account}){

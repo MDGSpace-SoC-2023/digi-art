@@ -13,7 +13,8 @@ import MarketPlaceAddress from '../contractsData/MarketPlace-address.json'
 import NFTAbi from '../contractsData/NFT.json'
 import NFTAddress from '../contractsData/NFT-address.json'
 import { useState } from 'react'
-import { ethers } from "ethers"
+// import { ethers } from "ethers"
+const ethers = require("ethers")
 import { Spinner } from 'react-bootstrap'
 
 import './App.css';

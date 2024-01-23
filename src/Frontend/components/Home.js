@@ -1,7 +1,8 @@
 import { useState,useEffect } from "react";
-import { ethers } from "ethers"
+// import { ethers } from "ethers"
+const ethers = require("ethers")
 import { Row, Col, Card, Button } from 'react-bootstrap'
-
+// require('dotenv').config()
 export default function Home ({marketplace,nft}){
     const[loading,setLoading] = useState(true)
     const[items,setItems]= useState([])
@@ -13,7 +14,7 @@ export default function Home ({marketplace,nft}){
     //     if (!item.sold){
     //   //  let totalPrice 
     //     const uri =  await nft.tokenURI(item.tokenID)
-    //     const response =  await fetch(uri)
+    //     const response =  await fetch(uri)e1
     //     const metadata = await response.json()
     //  items.push({
     //     // TotalPrice:totalPrice,
@@ -50,6 +51,7 @@ export default function Home ({marketplace,nft}){
                   description: metadata.description,
                   seller: item.seller,
                   image: metadata.image,
+                  phone_number: metadata.phone_number,
                   name: metadata.name,
               });
           }
@@ -117,7 +119,7 @@ export default function Home ({marketplace,nft}){
     </div>
     : (
       <main style={{ padding: "1rem 0" }}>
-        <h2>No listed assets</h2>
+        <h2>No listed assets. Go to CREATE page and list NFTs in the marketspace</h2>
       </main>
     )}
 </div>
