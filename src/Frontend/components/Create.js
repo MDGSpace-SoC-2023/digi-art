@@ -1,22 +1,38 @@
 import axios from 'axios';
 import { useState } from 'react'
+
 // import { ethers } from "ethers"
 const ethers = require("ethers")
 import { Row, Form, Button } from 'react-bootstrap'
+// const { Vonage } = require('@vonage/server-sdk')
 //require(dotenv).config()
+// import sendSMS from '../../test';
 const Create = ({ marketplace, nft }) => {
   const [fileImg, setFile] = useState(null);
   const [name, setName] = useState("")
   const [desc, setDescription] = useState("")
   const [price, setPrice] = useState("")
   const [phone_number,setPhone_number]=useState("");
-  //const Auth_SID=process.env.AUTH_SID;
-   const Auth_SID="ACbd2e0780754865548237af0315b3d17d";
-  //const Auth_Token=process.env.AUTH_TOKEN;
-  const Auth_Token="44376f8c5716dd0419eccb57e58b6b38";
-  const client = require('twilio')(Auth_SID,Auth_Token);
-
-
+  const [codesent,setCodeSent]= useState(false)
+  const SERVER_IP = 'http://localhost:5005';
+  async function sendCode(){
+    await fetch(SERVER_IP+'/api/send-code',{
+    method: 'POST',
+    headers: {
+      // 'Accept':'application/json',
+      'Content-Type':'application/json'
+    },
+    body: JSON.stringify({phone_number:phone_number})
+    }).then(response => {
+    console.log(response);
+    if(response ) {
+      alert("NFT Registered Successfully.You will be notified when your NFT is sold")
+      setCodeSent(true);
+    }
+    else
+    alert("Oh no we have an error")
+  })
+  }
   const sendJSONtoIPFS = async (ImgHash) => {
 
     try {
@@ -106,27 +122,12 @@ const Create = ({ marketplace, nft }) => {
     await (await marketplace.ListItem(listingPrice,nft.address, id )).wait()
     // console.log("Nft address is: ",nft.address)
     console.log("Item listed in Marketspace")
-    sendSMS("Hii Karthik");
+    sendCode();
   }
     catch(error){console.log("Error in minting NFT",error)}
   }
 
 
-const sendSMS = async (body)=>{
-let MsgOptions = {
-    from : +16782758491,
-    to: phone_number,
-    body
-}
- try {
-  const message = await  client.messages.create(MsgOptions)
-  console.log("hi")
-    console.log(message)
-} catch (error) {
-    console.log("The error is : ",error)
-}
-
-}
 
 
   return (
