@@ -1,147 +1,163 @@
-import axios from 'axios';
-import { useState } from 'react'
+import axios from "axios";
+import { useState } from "react";
 
 // import { ethers } from "ethers"
-const ethers = require("ethers")
-import { Row, Form, Button } from 'react-bootstrap'
+const ethers = require("ethers");
+import { Row, Form, Button } from "react-bootstrap";
 // const { Vonage } = require('@vonage/server-sdk')
 //require(dotenv).config()
 // import sendSMS from '../../test';
 const Create = ({ marketplace, nft }) => {
   const [fileImg, setFile] = useState(null);
-  const [name, setName] = useState("")
-  const [desc, setDescription] = useState("")
-  const [price, setPrice] = useState("")
-  const [phone_number,setPhone_number]=useState("");
-  const [codesent,setCodeSent]= useState(false)
-  const SERVER_IP = 'http://localhost:5005';
-  async function sendCode(){
-    await fetch(SERVER_IP+'/api/send-code',{
-    method: 'POST',
-    headers: {
-      // 'Accept':'application/json',
-      'Content-Type':'application/json'
-    },
-    body: JSON.stringify({phone_number:phone_number})
-    }).then(response => {
-    console.log(response);
-    if(response ) {
-      alert("NFT Registered Successfully.You will be notified when your NFT is sold")
-      setCodeSent(true);
-    }
-    else
-    alert("Oh no we have an error")
-  })
+  const [name, setName] = useState("");
+  const [desc, setDescription] = useState("");
+  const [price, setPrice] = useState("");
+  const [phone_number, setPhone_number] = useState("");
+  const [phoneRegister, setPhoneRegister] = useState(false);
+  const SERVER_IP = "http://localhost:5005";
+  async function sendSMS() {
+    await fetch(SERVER_IP + "/api/RegisterNFT", {
+      method: "POST",
+      headers: {
+        // 'Accept':'application/json',
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ phone_number: phone_number, name: name}),
+    }).then((response) => {
+      console.log(response);
+      if (response) {
+        alert(
+          "NFT Registered Successfully.You will be notified when your NFT is sold"
+        );
+        setPhoneRegister(true);
+      } else alert("Oh no we have an error");
+    });
   }
   const sendJSONtoIPFS = async (ImgHash) => {
-
     try {
-
       const resJSON = await axios({
         method: "post",
         url: "https://api.pinata.cloud/pinning/pinJsonToIPFS",
         data: {
-          "name": name,
-          "phone_number": phone_number,
-          "description": desc,
-          "image": ImgHash
+          name: name,
+          phone_number: phone_number,
+          description: desc,
+          image: ImgHash,
         },
         headers: {
-          'pinata_api_key': process.env.REACT_APP_PINATA_API_KEY,
-          'pinata_secret_api_key': process.env.REACT_APP_PINATA_SECRET_API_KEY,
-
+          pinata_api_key: process.env.REACT_APP_PINATA_API_KEY,
+          pinata_secret_api_key: process.env.REACT_APP_PINATA_SECRET_API_KEY,
         },
       });
-
-    
 
       const tokenURI = `https://gateway.pinata.cloud/ipfs/${resJSON.data.IpfsHash}`;
       console.log("Token URI", tokenURI);
       //mintNFT(tokenURI, currentAccount)   // pass the winner
-      mintThenList(tokenURI)
+      mintThenList(tokenURI);
     } catch (error) {
-      console.log("JSON to IPFS: ")
+      console.log("JSON to IPFS: ");
       console.log(error);
     }
+  };
 
 
-  }
-
-
-  ////////////////////////////////////////////////////////
 
   const sendFileToIPFS = async (e) => {
-
     e.preventDefault();
-    
 
     if (fileImg) {
       try {
-
         const formData = new FormData();
         formData.append("file", fileImg);
-      
+
         const resFile = await axios({
           method: "post",
           url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
           data: formData,
           headers: {
-            'pinata_api_key': process.env.REACT_APP_PINATA_API_KEY,
-            'pinata_secret_api_key': process.env.REACT_APP_PINATA_SECRET_API_KEY,
-            "Content-Type": "multipart/form-data"
+            pinata_api_key: process.env.REACT_APP_PINATA_API_KEY,
+            pinata_secret_api_key: process.env.REACT_APP_PINATA_SECRET_API_KEY,
+            "Content-Type": "multipart/form-data",
           },
         });
 
         const ImgHash = `https://gateway.pinata.cloud/ipfs/${resFile.data.IpfsHash}`;
-        
-        sendJSONtoIPFS(ImgHash)
 
-
+        sendJSONtoIPFS(ImgHash);
       } catch (error) {
-        console.log("File to IPFS: ")
-        console.log(error)
+        console.log("File to IPFS: ");
+        console.log(error);
       }
     }
-  }
-
-
+  };
 
   const mintThenList = async (uri) => {
     // const uri = `https://ipfs.infura.io/ipfs/${result.path}`
-    // mint nft 
+    // mint nft
     try {
-    await (await nft.mint(uri)).wait()
-    // get tokenId of new nft 
-    const id = await nft.tokenCount()
-    console.log("token ID : ",id)
-    // approve marketplace to spend nft
-    await (await nft.setApprovalForAll(marketplace.address, true)).wait()
-    console.log("token is given approval") 
-    // add nft to marketplace
-    const listingPrice = ethers.utils.parseEther(price.toString())
-    await (await marketplace.ListItem(listingPrice,nft.address, id )).wait()
-    // console.log("Nft address is: ",nft.address)
-    console.log("Item listed in Marketspace")
-    sendCode();
-  }
-    catch(error){console.log("Error in minting NFT",error)}
-  }
-
-
-
+      await (await nft.mint(uri)).wait();
+      // get tokenId of new nft
+      const id = await nft.tokenCount();
+      console.log("token ID : ", id);
+      // approve marketplace to spend nft
+      await (await nft.setApprovalForAll(marketplace.address, true)).wait();
+      console.log("token is given approval");
+      // add nft to marketplace
+      const listingPrice = ethers.utils.parseEther(price.toString());
+      await (await marketplace.ListItem(listingPrice, nft.address, id)).wait();
+      // console.log("Nft address is: ",nft.address)
+      console.log("Item listed in Marketspace");
+      sendSMS();
+    } catch (error) {
+      console.log("Error in minting NFT", error);
+    }
+  };
 
   return (
-
     <div className="container-fluid mt-5">
       <div className="row">
-        <main role="main" className="col-lg-12 mx-auto" style={{ maxWidth: '1000px' }}>
+        <main
+          role="main"
+          className="col-lg-12 mx-auto"
+          style={{ maxWidth: "1000px" }}
+        >
           <div className="content mx-auto">
             <Row className="g-4">
-              <Form.Control onChange={(e) => setFile(e.target.files[0])} size="lg" required type="file" name="file" />
-              <Form.Control onChange={(e) => setName(e.target.value)} size="lg" required type="text" placeholder="Name" />
-              <Form.Control onChange={(e) => setPhone_number(e.target.value)} size="lg" required type="number" placeholder="Phone Number" />
-              <Form.Control onChange={(e) => setDescription(e.target.value)} size="lg" required as="textarea" placeholder="Description" />
-              <Form.Control onChange={(e) => setPrice(e.target.value)} size="lg" required type="number" placeholder="Price in ETH" />
+              <Form.Control
+                onChange={(e) => setFile(e.target.files[0])}
+                size="lg"
+                required
+                type="file"
+                name="file"
+              />
+              <Form.Control
+                onChange={(e) => setName(e.target.value)}
+                size="lg"
+                required
+                type="text"
+                placeholder="Name"
+              />
+              <Form.Control
+                onChange={(e) => setPhone_number(e.target.value)}
+                size="lg"
+                required
+                type="text"
+                placeholder="Phone Number"
+              />
+              <Form.Control
+                onChange={(e) => setDescription(e.target.value)}
+                size="lg"
+                required
+                as="textarea"
+                placeholder="Description"
+              />
+              <Form.Control
+                onChange={(e) => setPrice(e.target.value)}
+                size="lg"
+                required
+                type="number"
+                placeholder="Price in ETH"
+              />
               <div className="d-grid px-0">
                 <Button onClick={sendFileToIPFS} variant="primary" size="lg">
                   Create & List NFT!
@@ -152,11 +168,10 @@ const Create = ({ marketplace, nft }) => {
         </main>
       </div>
     </div>
-    
-    )
-}
+  );
+};
 
-export default Create
+export default Create;
 // import { useState } from "react"
 // import { create as ipfsHttpClient } from 'ipfs-http-client'
 // import {Row,Form,Button} from "react-bootstrap"
@@ -190,14 +205,14 @@ export default Create
 
 // }
 // else{SetPass(false)}
-    
+
 //    }
 //    async function MintNFT(result){
 //    const uri = `https://ipfs.infura.io/ipfs/${result.path}`
 //    await(await nft.mint(uri)).wait()
 //    await(await nft.setApprovalForAll(marketplace.address, true)).wait()
 //    const id = nft.tokenCount()
-//    await(await marketplace.ListItem(price,nft,id))  //Arguments passed according Marketplace.sol 
+//    await(await marketplace.ListItem(price,nft,id))  //Arguments passed according Marketplace.sol
 //    }
 //     return(
 //         <div className="container-fluid mt-5">

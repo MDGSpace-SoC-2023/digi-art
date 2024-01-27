@@ -2,10 +2,31 @@ import { useState,useEffect } from "react";
 // import { ethers } from "ethers"
 const ethers = require("ethers")
 import { Row, Col, Card, Button } from 'react-bootstrap'
-// require('dotenv').config()
+
+const SERVER_IP = "http://localhost:5005";
 export default function Home ({marketplace,nft}){
     const[loading,setLoading] = useState(true)
     const[items,setItems]= useState([])
+ async function NFT_Sold(phone_number,name){
+  console.log("Phone_number is:",phone_number)
+  console.log("Name  is:",name)
+  await fetch(SERVER_IP + "/api/nftSold", {
+    method: "POST",
+    headers: {
+      // 'Accept':'application/json',
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ phone_number:phone_number, name:name}),
+  }).then((response) => {
+    console.log(response);
+    if (response) {
+      alert(
+        "You Just bought an NFT"
+      );
+    
+    } else alert("Oh no we have an error");
+  });
+ }
  async function LoadListedNfts_in_Marketplace(){
     // const items = []
     //  const tokenCount =await marketplace.token_Listed_count();
@@ -60,7 +81,7 @@ export default function Home ({marketplace,nft}){
       setItems(items);
   } catch (error) {
       console.error('Error fetching or processing data:', error);
-      // Handle the error or set state accordingly
+     
   }}
 
   async function handlePurchase(item){
@@ -69,6 +90,8 @@ export default function Home ({marketplace,nft}){
    
     await (await marketplace.BuyItem(item.itemId, { value: item.price })).wait()//Reason for extra bracket to be established
     console.log("bought the item")
+    await NFT_Sold(item.phone_number,item.name)
+
     LoadListedNfts_in_Marketplace() } 
     catch (error) {
       console.log("error in handlePurchase : ",error)

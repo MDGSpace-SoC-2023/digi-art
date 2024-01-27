@@ -16,7 +16,7 @@ import { useState } from 'react'
 // import { ethers } from "ethers"
 const ethers = require("ethers")
 import { Spinner } from 'react-bootstrap'
-
+import {Button} from "react-bootstrap"
 import './App.css';
 
 function App() {
@@ -57,16 +57,22 @@ function App() {
   return (
     <BrowserRouter>
       <div className="App">
-        <>
-          <Navigation web3Handler={web3Handler} account={account} />
-        </>
+       
         <div>
           {loading ? (
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh' }}>
+              <div>Welcome to IIT Roorkee's first ever NFT MarketSpace</div>
+              <br/>
               <Spinner animation="border" style={{ display: 'flex' }} />
+             <br />
               <p className='mx-3 my-0'>Awaiting Metamask Connection...</p>
+              <Button onClick={web3Handler} >Connect Wallet</Button>
             </div>
           ) : (
+            <>
+            <>
+            <Navigation web3Handler={web3Handler} account={account} />
+          </>
             <Routes>
               <Route path="/" element={
                 <Home marketplace={marketplace} nft={nft} />
@@ -81,6 +87,8 @@ function App() {
                 <MyPurchases marketplace={marketplace} nft={nft} account={account} />
               } />
             </Routes>
+           
+        </>
           )}
         </div>
       </div>
