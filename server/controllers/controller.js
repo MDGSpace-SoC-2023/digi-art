@@ -1,19 +1,19 @@
-const { Vonage } = require("@vonage/server-sdk");
+// const { Vonage } = require("@vonage/server-sdk");
 
-const vonage = new Vonage({
-  apiKey: "a5cd806b",
-  apiSecret: "ZaH5RjdWdBebvmQE",
-});
+// const vonage = new Vonage({
+//   apiKey: "a5cd806b",
+//   apiSecret: "ZaH5RjdWdBebvmQE",
+// });
 
 // await vonage.sms.send({to, from, text})
 //     .then(resp => { console.log('Message sent successfully'); console.log(resp); })
 //     .catch(err => { console.log('There was an error sending the messages.'); console.error(err); });
-
+require('dotenv').config()
 const RegisterNFT = async (req, res) => {
   // res.send('Hello, this is your backend!');
   const { phone_number, name } = req.body;
-  const accountSid = 'ACbd2e0780754865548237af0315b3d17d';
-  const authToken = '30cc9d7024be5b76c60da7bf24539936';
+  const accountSid = process.env.AUTH_SID;
+  const authToken = process.env.AUTH_TOKEN;
   const client = require('twilio')(accountSid, authToken);
  console.log("phone number is : ",phone_number)
   client.messages
