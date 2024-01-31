@@ -7,7 +7,7 @@ async function main(){
   const NFT = await ethers.getContractFactory("NFT")
   const MarketPlace = await ethers.getContractFactory("MarketPlace")
   const nft =  await NFT.deploy()
-  const marketPlace = await MarketPlace.deploy(5)
+  const marketPlace = await MarketPlace.deploy()
   saveFrontendFiles(nft,"NFT")
   saveFrontendFiles(marketPlace,"MarketPlace")
 }

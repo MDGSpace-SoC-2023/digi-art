@@ -18,7 +18,7 @@ const Navigation = ({ web3Handler, account }) => {
                         <Nav.Link as={Link} to="/my-purchases">My Purchases</Nav.Link>
                     </Nav>
                     <Nav>
-                        {account ? (
+                        { (
                             <Nav.Link
                                 href={`https://etherscan.io/address/${account}`}
                                 target="_blank"
@@ -29,8 +29,6 @@ const Navigation = ({ web3Handler, account }) => {
                                 </Button>
 
                             </Nav.Link>
-                        ) : (
-                            <Button onClick={web3Handler} variant="outline-light">Connect Wallet</Button>
                         )}
                     </Nav>
                 </Navbar.Collapse>

@@ -7,10 +7,10 @@ contract MarketPlace is ReentrancyGuard {
     uint feepercent;
     address payable feeaddress;
     uint public  token_Listed_count =0;
-    constructor(uint _feePercent){
-        feepercent = _feePercent;
-        feeaddress = payable (msg.sender);
-    }
+    // constructor(uint _feePercent){
+    //     feepercent = _feePercent;
+    //     feeaddress = payable (msg.sender);
+    // }
     struct Item {
         uint itemID;
         IERC721 NFT;

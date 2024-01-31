@@ -13,6 +13,7 @@
     "axios": "^1.3.2",
     "axois": "^0.0.1-security",
     "cors": "^2.8.5",
+    "dotenv": "^16.4.1",
     "express": "^4.18.2",
     "textflow.js": "^0.1.3"
   }

@@ -16,8 +16,9 @@ import { useState } from 'react'
 // import { ethers } from "ethers"
 const ethers = require("ethers")
 import { Spinner } from 'react-bootstrap'
-import {Button} from "react-bootstrap"
+import { Button } from "react-bootstrap"
 import './App.css';
+import { a } from "react-router-dom";
 
 function App() {
   const [loading, setLoading] = useState(true)
@@ -57,38 +58,45 @@ function App() {
   return (
     <BrowserRouter>
       <div className="App">
-       
+
         <div>
           {loading ? (
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh' }}>
-              <div>Welcome to IIT Roorkee's first ever NFT MarketSpace</div>
-              <br/>
+            <div style={{ display: 'flex', flexDirection: 'column',justifyContent: 'center', alignItems: 'center', minHeight: '80vh', backgroundColor: '#f8f9fa'}}>
+              <h2  style={{ color: '#343a40', marginBottom: '20px', fontSize: '80px' }}>Welcome to IIT Roorkee's first ever NFT MarketSpace</h2>
+
               <Spinner animation="border" style={{ display: 'flex' }} />
-             <br />
-              <p className='mx-3 my-0'>Awaiting Metamask Connection...</p>
+
+              <p style={{ color: '#6c757d', marginBottom: '20px' }}>Awaiting Metamask Connection...</p>
               <Button onClick={web3Handler} >Connect Wallet</Button>
+              <a href="https://metamask.io/">Don't have a Metamask Account?</a>
             </div>
+            //   <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', minHeight: '80vh', backgroundColor: '#f8f9fa', borderRadius: '15px', padding: '20px' }}>
+            //   <h2 style={{ color: '#343a40', marginBottom: '20px' }}>Welcome to IIT Roorkee's first ever NFT MarketSpace</h2>
+            //   <Spinner animation="border" style={{ color: '#343a40', marginBottom: '20px' }} />
+            //   <p style={{ color: '#6c757d', marginBottom: '20px' }}>Awaiting Metamask Connection...</p>
+            //   <Button onClick={web3Handler} style={{ backgroundColor: '#343a40', borderColor: '#343a40' }}>Connect Wallet</Button>
+            // </div>
           ) : (
             <>
-            <>
-            <Navigation web3Handler={web3Handler} account={account} />
-          </>
-            <Routes>
-              <Route path="/" element={
-                <Home marketplace={marketplace} nft={nft} />
-              } />
-              <Route path="/create" element={
-                <Create marketplace={marketplace} nft={nft} />
-              } />
-              <Route path="/my-listed-items" element={
-                <MyListedItems marketplace={marketplace} nft={nft} account={account} />
-              } />
-              <Route path="/my-purchases" element={
-                <MyPurchases marketplace={marketplace} nft={nft} account={account} />
-              } />
-            </Routes>
-           
-        </>
+              <>
+                <Navigation web3Handler={web3Handler} account={account} />
+              </>
+              <Routes>
+                <Route path="/" element={
+                  <Home marketplace={marketplace} nft={nft} />
+                } />
+                <Route path="/create" element={
+                  <Create marketplace={marketplace} nft={nft} />
+                } />
+                <Route path="/my-listed-items" element={
+                  <MyListedItems marketplace={marketplace} nft={nft} account={account} />
+                } />
+                <Route path="/my-purchases" element={
+                  <MyPurchases marketplace={marketplace} nft={nft} account={account} />
+                } />
+              </Routes>
+
+            </>
           )}
         </div>
       </div>
